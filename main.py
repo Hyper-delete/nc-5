@@ -51,7 +51,7 @@ TOKENS = [
 
 ]
 
- = [7623391678 ,8399044122]
+OWNER_ID = [7623391678 ,8399044122]
 rights_FILE = "rights.json"
 STICKER_FILE = "stickers.json"
 
