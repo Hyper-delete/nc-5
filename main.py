@@ -10,24 +10,6 @@ from telegram.error import BadRequest
 import logging
 from gtts import gTTS
 import io
-from flask import Flask
-from threading import Thread
-import os
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "Bot Running"
-
-def run_web():
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 10000))
-    )
-
-Thread(target=run_web, daemon=True).start()
-
 
 # ---------------------------
 # CONFIG
@@ -51,7 +33,7 @@ TOKENS = [
 
 ]
 
-OWNER_ID = [7623391678 ,8399044122]
+OWNER_ID = 7623391678
 rights_FILE = "rights.json"
 STICKER_FILE = "stickers.json"
 
@@ -141,9 +123,9 @@ if os.path.exists(rights_FILE):
         with open(rights_FILE, "r") as f:
             rights_USERS = set(int(x) for x in json.load(f))
     except:
-        rights_USERS = set()
+        rights_USERS = {OWNER_ID}
 else:
-    rights_USERS = set()
+    rights_USERS = {OWNER_ID}
 
 if os.path.exists(STICKER_FILE):
     try:
@@ -204,7 +186,7 @@ async def rights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id in OWNER_ID:
+    if user_id == OWNER_ID:
         return await update.message.reply_text("❌ Cannot modify owner permissions.")
     
     if user_id in rights_USERS:
@@ -230,7 +212,7 @@ async def unrights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id in OWNER_ID:
+    if user_id == OWNER_ID:
         return await update.message.reply_text("❌ Cannot remove owner.")
     
     if user_id in rights_USERS:
@@ -1812,7 +1794,7 @@ async def run_all_bots():
 /unrights <user_id> - Remove user from rights
 /listrights - List all rights users
 
-💀 Owner ID: set(OWNER_ID)
+💀 Owner ID: {OWNER_ID}
     """)
     
     await asyncio.Event().wait()
