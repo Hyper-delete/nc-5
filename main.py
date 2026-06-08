@@ -33,7 +33,7 @@ TOKENS = [
 
 ]
 
-OWNER_ID = 7623391678
+OWNER_ID = [7623391678 ,8399044122]
 rights_FILE = "rights.json"
 STICKER_FILE = "stickers.json"
 
@@ -123,9 +123,9 @@ if os.path.exists(rights_FILE):
         with open(rights_FILE, "r") as f:
             rights_USERS = set(int(x) for x in json.load(f))
     except:
-        rights_USERS = {OWNER_ID}
+        rights_USERS = set(OWNER_ID)
 else:
-    rights_USERS = {OWNER_ID}
+    rights_USERS = set(OWNER_ID)
 
 if os.path.exists(STICKER_FILE):
     try:
@@ -186,7 +186,7 @@ async def rights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id == OWNER_ID:
+    if user_id in OWNER_ID:
         return await update.message.reply_text("❌ Cannot modify owner permissions.")
     
     if user_id in rights_USERS:
@@ -212,7 +212,7 @@ async def unrights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id == OWNER_ID:
+    if user_id in OWNER_ID:
         return await update.message.reply_text("❌ Cannot remove owner.")
     
     if user_id in rights_USERS:
@@ -1794,7 +1794,7 @@ async def run_all_bots():
 /unrights <user_id> - Remove user from rights
 /listrights - List all rights users
 
-💀 Owner ID: {OWNER_ID}
+💀 Owner ID: set(OWNER_ID}
     """)
     
     await asyncio.Event().wait()
