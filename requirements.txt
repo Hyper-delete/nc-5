@@ -1,0 +1,5 @@
+python-telegram-bot>=21.0
+yt-dlp>=2025.1.0
+gTTS>=2.5.0
+requests>=2.32.0
+flask
