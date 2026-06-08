@@ -204,7 +204,7 @@ async def rights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id in :
+    if user_id in OWNER_ID:
         return await update.message.reply_text("❌ Cannot modify owner permissions.")
     
     if user_id in rights_USERS:
@@ -230,7 +230,7 @@ async def unrights(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return await update.message.reply_text("❌ Invalid user ID. Must be a number.")
     
     # Don't allow removing owner
-    if user_id in :
+    if user_id in OWNER_ID:
         return await update.message.reply_text("❌ Cannot remove owner.")
     
     if user_id in rights_USERS:
